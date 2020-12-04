@@ -1,6 +1,6 @@
 const Email = require('../models/email');
 
-module.exports.postEmail = (req, res) => {
+module.exports.postEmail = (req, res, next) => {
 	const email = new Email(req.body);
 	email
 		.save()
@@ -8,9 +8,8 @@ module.exports.postEmail = (req, res) => {
 			res.json({ message: 'email saved' });
 		})
 		.catch(err => {
-			console.log(err);
-			res.status(500).json({
-				message: "Couldn't save the email",
-			});
+			err.msg = "Can't save email";
+			err.httpStatusCode = 422;
+			next(err);
 		});
 };
