@@ -11,12 +11,16 @@ app.use(express.json());
 app.use('/api', emailRoutes);
 
 app.use((req, res) => {
-	res.status(404).send("Sorry can't find that!");
+	res.status(404).json({
+		message: "Sorry can't find that!",
+	});
 });
 
 app.use((error, req, res, next) => {
 	console.log(error);
-	res.status(error.httpStatusCode || 500).send(error.msg || 'Something broke!');
+	res
+		.status(error.httpStatusCode || 500)
+		.json({ message: error.msg || 'Something broke!' });
 });
 
 mongoose
