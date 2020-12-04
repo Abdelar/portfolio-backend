@@ -1,11 +1,17 @@
 const express = require('express');
+const mongoose = require('mongoose');
 
 const PORT = process.env.PORT || 3000;
 const app = express();
 
-app.get('/test', (req, res) => {
-	console.log('hitting test endpoint');
+app.get('/', (req, res) => {
 	return res.send('test');
 });
 
-app.listen(PORT, () => console.log('server listening...'));
+mongoose
+	.connect(process.env.MONGODB_URI, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+	})
+	.then(() => app.listen(PORT))
+	.catch(err => console.error(err));
