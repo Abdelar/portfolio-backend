@@ -1,23 +1,26 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const helmet = require('helmet');
 
 const emailRoutes = require('./Routes/email');
 
 const app = express();
 
+app.use(helmet());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
 app.use('/api', emailRoutes);
 
+// 404 errors
 app.use((req, res) => {
 	res.status(404).json({
 		message: "Sorry can't find that!",
 	});
 });
 
+//General errors
 app.use((error, req, res, next) => {
-	console.log(error);
+	console.error(error);
 	res
 		.status(error.httpStatusCode || 500)
 		.json({ message: error.msg || 'Something broke!' });
