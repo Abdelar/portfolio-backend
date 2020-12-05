@@ -48,6 +48,6 @@ module.exports.template = ({ email, emailBody }) => `
             opacity:0.5;
             margin-top:.5em;
             font-size:.8em;
-            ">${new Date().toDateString()}</div>
+            ">${new Date().toLocaleString('fr-FR')}</div>
 </div> 
 `;
