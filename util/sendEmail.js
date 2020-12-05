@@ -26,6 +26,7 @@ module.exports.template = ({ email, emailBody }) => `
              margin:0;
              padding:0;
              font-size:1.3em;
+            text-decoration:none;
              ">${email}</h1>
   <p style="
             background-color:#EEE;
@@ -40,6 +41,7 @@ module.exports.template = ({ email, emailBody }) => `
             letter-spacing:.2em;
             font-weight:200;
             font-size:.8em;
+            text-decoration:none;
             ">elaroussi.dev</div>
  
 <div style="
