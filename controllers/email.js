@@ -1,6 +1,6 @@
 const { validationResult } = require('express-validator');
 
-const { sendEmail } = require('../util/sendEmail');
+const { sendEmail, template } = require('../util/sendEmail');
 const Email = require('../models/email');
 
 module.exports.postEmail = (req, res, next) => {
@@ -18,12 +18,8 @@ module.exports.postEmail = (req, res, next) => {
 			sendEmail({
 				from: email,
 				to: process.env.OUTLOOK_MAIL,
-				subject: 'From The Portfolio Website',
-				text: `
-				from: ${email}
-				message: ${emailBody}
-				Date: ${new Date()}
-				`,
+				subject: 'The Portfolio Website Contact Form',
+				html: template({ email, emailBody }),
 			})
 				.then(info => console.log(info.response))
 				.catch(err => console.error(err));
