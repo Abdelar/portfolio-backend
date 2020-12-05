@@ -6,8 +6,6 @@ const Email = require('../models/email');
 module.exports.postEmail = (req, res, next) => {
 	const { email, emailBody } = req.body;
 
-	console.log({ email, emailBody });
-
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		return res.status(422).json({ errors: errors.array() });
