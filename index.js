@@ -7,7 +7,7 @@ const emailRoutes = require('./Routes/email');
 
 const app = express();
 
-app.use(cors());
+app.use(cors({ origin: 'https://abdell.tech' }));
 app.use(helmet());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
