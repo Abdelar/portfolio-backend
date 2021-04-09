@@ -15,17 +15,15 @@ module.exports.postEmail = (req, res, next) => {
 		.save()
 		.then(() => {
 			res.json({ message: 'email saved' });
-			sendEmail(
+			return sendEmail(
 				{
 					name: 'Abdellatif Elaroussi on behalf of ' + email,
 					email: process.env.GOOGLE_MAIL,
 				},
 				{ name: 'Elaroussi Abdellatif', email: process.env.OUTLOOK_MAIL },
-				'New Email From **Abdell.tech** Contact Form',
+				'New Email From Abdell.tech Contact Form',
 				emailBody
-			)
-				.then(info => console.log(info.response))
-				.catch(console.error);
+			);
 		})
 		.catch(err => {
 			err.msg = "Can't save email";
