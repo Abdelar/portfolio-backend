@@ -9,9 +9,7 @@ const token = {
 	expiry_date: Number(process.env.EXPIRY_DATE),
 };
 
-authorize(sendEmailUsingGmailAPI);
-
-function authorize(callback) {
+function sendEmailUsingGmailAPI(callback) {
 	const oAuth2Client = new google.auth.OAuth2(
 		process.env.CLIENT_ID,
 		process.env.CLIENT_SECRET,
@@ -22,7 +20,7 @@ function authorize(callback) {
 	callback(oAuth2Client);
 }
 
-function sendEmailUsingGmailAPI(auth) {
+function send(auth) {
 	const gmail = google.gmail({ version: 'v1', auth });
 	gmail.users.messages
 		.send({
@@ -45,3 +43,5 @@ function sendEmailUsingGmailAPI(auth) {
 		.then(res => console.log(res.data))
 		.catch(console.error);
 }
+
+sendEmailUsingGmailAPI(send);
