@@ -1,6 +1,6 @@
 const { validationResult } = require('express-validator');
 
-const { sendEmail, template } = require('../util/sendEmail');
+const sendEmail = require('../util/sendEmailUsingGmailAPI');
 const Email = require('../models/email');
 
 module.exports.postEmail = (req, res, next) => {
@@ -15,14 +15,17 @@ module.exports.postEmail = (req, res, next) => {
 		.save()
 		.then(() => {
 			res.json({ message: 'email saved' });
-			sendEmail({
-				from: email,
-				to: process.env.OUTLOOK_MAIL,
-				subject: 'The Portfolio Website Contact Form',
-				html: template({ email, emailBody }),
-			})
+			sendEmail(
+				{
+					name: 'Abdellatif Elaroussi on behalf of ' + email,
+					email: process.env.GOOGLE_MAIL,
+				},
+				{ name: 'Elaroussi Abdellatif', email: process.env.OUTLOOK_MAIL },
+				'New Email From **Abdell.tech** Contact Form',
+				emailBody
+			)
 				.then(info => console.log(info.response))
-				.catch(err => console.error(err));
+				.catch(console.error);
 		})
 		.catch(err => {
 			err.msg = "Can't save email";

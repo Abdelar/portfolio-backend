@@ -9,7 +9,7 @@ const token = {
 	expiry_date: Number(process.env.EXPIRY_DATE),
 };
 
-function sendEmailUsingGmailAPI(callback) {
+function authenticate(callback, ...emailOptions) {
 	const oAuth2Client = new google.auth.OAuth2(
 		process.env.CLIENT_ID,
 		process.env.CLIENT_SECRET,
@@ -17,31 +17,36 @@ function sendEmailUsingGmailAPI(callback) {
 	);
 
 	oAuth2Client.setCredentials(token);
-	callback(oAuth2Client);
+	return callback(oAuth2Client, ...emailOptions);
 }
 
-function send(auth) {
+function send(auth, ...emailOptions) {
 	const gmail = google.gmail({ version: 'v1', auth });
-	gmail.users.messages
-		.send({
-			userId: 'me',
-			requestBody: {
-				raw: createRawEmail(
-					{
-						name: 'Abdellatif Elaroussi',
-						email: 'elaroussi.dev@gmail.com',
-					},
-					{
-						name: 'Abdel Elaroussi',
-						email: 'elaroussi@outlook.com',
-					},
-					'New Email From Abdell.tech  Contact Form',
-					'this is a test email body 😄'
-				),
-			},
-		})
-		.then(res => console.log(res.data))
-		.catch(console.error);
+	return gmail.users.messages.send({
+		userId: 'me',
+		requestBody: {
+			raw: createRawEmail(...emailOptions),
+		},
+	});
 }
 
-sendEmailUsingGmailAPI(send);
+module.exports = function (...emailOptions) {
+	authenticate(send, ...emailOptions);
+};
+
+// function x(...emailOptions) {
+// 	authenticate(send, ...emailOptions);
+// }
+
+// x(
+// 	{
+// 		name: 'Abdellatif Elaroussi',
+// 		email: 'elaroussi.dev@gmail.com',
+// 	},
+// 	{
+// 		name: 'Abdel Elaroussi',
+// 		email: 'elaroussi@outlook.com',
+// 	},
+// 	'New Email From Abdell.tech  Contact Form',
+// 	'this is a test email body 😄'
+// );
