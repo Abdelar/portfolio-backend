@@ -33,20 +33,3 @@ function send(auth, ...emailOptions) {
 module.exports = function (...emailOptions) {
 	authenticate(send, ...emailOptions);
 };
-
-// function x(...emailOptions) {
-// 	authenticate(send, ...emailOptions);
-// }
-
-// x(
-// 	{
-// 		name: 'Abdellatif Elaroussi',
-// 		email: 'elaroussi.dev@gmail.com',
-// 	},
-// 	{
-// 		name: 'Abdel Elaroussi',
-// 		email: 'elaroussi@outlook.com',
-// 	},
-// 	'New Email From Abdell.tech  Contact Form',
-// 	'this is a test email body 😄'
-// );
