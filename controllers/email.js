@@ -14,7 +14,7 @@ module.exports.postEmail = (req, res, next) => {
 	emailObj
 		.save()
 		.then(() => {
-			res.json({ message: 'email saved' });
+			res.json({ message: 'Email saved to the database' });
 			return sendEmail(
 				{
 					name: 'Abdellatif Elaroussi on behalf of ' + email,
@@ -23,7 +23,11 @@ module.exports.postEmail = (req, res, next) => {
 				{ name: 'Elaroussi Abdellatif', email: process.env.OUTLOOK_MAIL },
 				'New Email From Abdell.tech Contact Form',
 				emailBody
-			);
+			)
+				.then(() =>
+					console.log('An email from ' + email + ' is delivered successfully')
+				)
+				.catch(console.error);
 		})
 		.catch(err => {
 			err.msg = "Can't save email";

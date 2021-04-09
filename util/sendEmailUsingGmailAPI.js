@@ -31,5 +31,5 @@ function send(auth, ...emailOptions) {
 }
 
 module.exports = function (...emailOptions) {
-	authenticate(send, ...emailOptions);
+	return authenticate(send, ...emailOptions);
 };
